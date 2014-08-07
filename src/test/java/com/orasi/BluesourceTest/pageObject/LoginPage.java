@@ -16,7 +16,7 @@ public class LoginPage {
 	
 	//all the page elements
 	@FindBy(id = "employee_username")
-	private Textbox txtUsername;
+	private WebElement txtUsername;
 	
 	@FindBy(id = "employee_password")
 	private  Textbox txtPassword;
@@ -47,8 +47,7 @@ public class LoginPage {
 		driver.switchTo().defaultContent();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(txtUsername));
-
-		txtUsername.safeSet(username);
+		txtUsername.sendKeys(username);
 		txtPassword.safeSet(password);
 		btnLogin.click();
 	}
