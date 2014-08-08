@@ -1,5 +1,4 @@
 package com.orasi.BluesourceTest.tests;
-import org.openqa.selenium.support.PageFactory;
 import org.junit.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
@@ -19,11 +18,11 @@ public class TestAddNewTitle extends BaseTest{
 	public void testCreateNewTitle(TestAddNewTitleData testData){
 		
 		//Login
-		LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(testData.getloginUsername(), testData.getloginPassword());
 	  
 		//Verify user is logged in
-		TopNavigationBar topNavigationBar = PageFactory.initElements(driver, TopNavigationBar.class);
+		TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
 		Assert.assertTrue(topNavigationBar.isLoggedIn());
 		Reporter.log("User was logged in successfully");
 		
@@ -32,7 +31,7 @@ public class TestAddNewTitle extends BaseTest{
 		topNavigationBar.clickTitlesLink();
 		
 		//Verify navigated to the title page
-		ListingTitlesPage listingTitlesPage = PageFactory.initElements(driver, ListingTitlesPage.class);
+		ListingTitlesPage listingTitlesPage = new ListingTitlesPage(driver);
 		Assert.assertTrue(listingTitlesPage.isTitleHeaderDisplayed());
 		Reporter.log("Navigated to the listing titles page<br>");
 
@@ -41,7 +40,7 @@ public class TestAddNewTitle extends BaseTest{
 		Reporter.log("Navigated to the new title page<br>");
 		
 		//Instantiate the New titles page and create a new title
-		NewTitlePage newTitlePage = PageFactory.initElements(driver, NewTitlePage.class);
+		NewTitlePage newTitlePage = new NewTitlePage(driver);
 		newTitlePage.CreateNewTitle(testData.getNewTitle());
 		
 		//Verify the title was created
@@ -56,7 +55,7 @@ public class TestAddNewTitle extends BaseTest{
 		listingTitlesPage.DeleteTitle(testData.getNewTitle());
 		
 		//Verify the title is deleted
-		ListingTitlesPage refreshedPage = PageFactory.initElements(driver, ListingTitlesPage.class);
+		ListingTitlesPage refreshedPage = new ListingTitlesPage(driver);
 		Assert.assertTrue(refreshedPage.isSuccessMsgDisplayed());
 		Reporter.log("New title was deleted successfully<br>");
 		

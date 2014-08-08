@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -31,7 +32,7 @@ import com.orasi.BluesourceTest.core.CommonUtils;
 public class BaseTest extends CommonUtils{
 	
 
-	public static WebDriver driver;
+	public WebDriver driver;
 	public static StringBuffer verificationErrors = new StringBuffer();
 	
 	  @BeforeTest
@@ -69,8 +70,14 @@ public class BaseTest extends CommonUtils{
 				DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 				driver = new RemoteWebDriver(seleniumRemoteIE, capabilities);
 				capabilities.setJavascriptEnabled(true);
+			}else if (browser.equalsIgnoreCase("htmlUnitDriver")) {
+				
+				//driver = new FirefoxDriver();
+				//URL seleniumRemoteFirefox = new URL("http", "10.238.242.73", 5555, "/wd/hub");
+				//DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+				driver = new HtmlUnitDriver();
+				//capabilities.setJavascriptEnabled(true);
 			}
-			
 			driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS); 
 		  
 			//launch the browser
@@ -85,7 +92,7 @@ public class BaseTest extends CommonUtils{
 		  
 		  //take a screenshot if the result is failure
 		  if(!result.isSuccess()){
-			  TakeScreenshot(methodName, driver);
+			  //TakeScreenshot(methodName, driver);
 		  }
 		  
 //	      Calendar calendar = Calendar.getInstance();

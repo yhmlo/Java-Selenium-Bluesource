@@ -13,7 +13,7 @@ import org.testng.Reporter;
 
 public class CommonUtils {
 
-	public File TakeScreenshot(String methodName, WebDriver driver){
+/*	public File TakeScreenshot(String methodName, WebDriver driver){
 	      Calendar calendar = Calendar.getInstance();
 	      SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
 	      String failFileName = null;
@@ -23,8 +23,8 @@ public class CommonUtils {
         	  System.out.println(failFileName);
         	  File failFile = new File(failFileName);
         	  try {
-				FileUtils.moveFile(imageFile, failFile);
-			} catch (IOException e) {
+				//FileUtils.moveFile(imageFile, failFile);
+			} //catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -37,6 +37,6 @@ public class CommonUtils {
            //   e1.printStackTrace();
          // }
 		//return null;
-
-	}
+*/
+	
 }

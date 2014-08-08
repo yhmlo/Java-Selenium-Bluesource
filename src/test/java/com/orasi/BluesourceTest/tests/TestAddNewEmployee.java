@@ -21,7 +21,7 @@ public class TestAddNewEmployee extends BaseTest {
 		  
 
 		  //Login
-		  LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+		  LoginPage loginPage = new LoginPage(driver);
 		  loginPage.login(testData.getLoginUsername(), testData.getLoginPassword());
 
 		  //Verify user is logged in

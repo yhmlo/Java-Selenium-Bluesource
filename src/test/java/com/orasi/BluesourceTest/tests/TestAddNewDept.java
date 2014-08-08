@@ -19,11 +19,11 @@ public class TestAddNewDept extends BaseTest {
 	public void testCreateNewDept(TestAddNewDeptData testData){
 	
 		//Login
-		LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(testData.getloginUsername(), testData.getloginPassword());
 	  
 		//Verify user is logged in
-		TopNavigationBar topNavigationBar = PageFactory.initElements(driver, TopNavigationBar.class);
+		TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
 		Assert.assertTrue(topNavigationBar.isLoggedIn());
 		Reporter.log("User was logged in successfully");
 		
@@ -32,13 +32,13 @@ public class TestAddNewDept extends BaseTest {
 		topNavigationBar.clickDepartmentsLink();
 		
 		//Verify navigated to the dept page
-		DepartmentsPage deptPage = PageFactory.initElements(driver, DepartmentsPage.class);
+		DepartmentsPage deptPage = new DepartmentsPage(driver);
 		Assert.assertTrue(deptPage.isTitleHeaderDisplayed());
 		Reporter.log("Navigated to the department page");
 		
 		//Add a new dept
 		deptPage.ClickAddDeptLink();
-		NewDeptPage newDeptPage = PageFactory.initElements(driver, NewDeptPage.class);
+		NewDeptPage newDeptPage = new NewDeptPage(driver);
 		newDeptPage.CreateNewDept(testData.getNewDept());
 		
 		//Verify the dept is added
@@ -53,7 +53,7 @@ public class TestAddNewDept extends BaseTest {
 		deptPage.DeleteDept(testData.getNewDept());
 		
 		//Verify the title is deleted
-		DepartmentsPage refreshedPage = PageFactory.initElements(driver, DepartmentsPage.class);
+		DepartmentsPage refreshedPage = new DepartmentsPage(driver);
 		Assert.assertTrue(refreshedPage.IsSuccessMsgDisplayed());
 		Reporter.log("New dept was deleted successfully<br>");
 		
