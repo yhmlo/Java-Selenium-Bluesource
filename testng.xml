@@ -4,7 +4,7 @@
   <test name="Enter time off details for employee">
   	<parameter name="browser"  value="Chrome"/>
     <classes>
-      <class name="com.orasi.BluesourceTest.tests.TestAddNewTitle">
+      <class name="com.orasi.BluesourceTest.tests.TestAddNewDept">
 	  </class>   
     </classes>
   </test> 
