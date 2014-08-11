@@ -1,0 +1,6 @@
+LoginUsername,LoginPassword,DateRequested,StartDate,EndDate,VacationType,OtherReason,HalfDay
+jessica.marshall,test123,<SKIP>,<SKIP>,<SKIP>,Vacation,<SKIP>,FALSE
+jessica.marshall,test123,<SKIP>,<SKIP>,<SKIP>,Sick,<SKIP>,FALSE
+jessica.marshall,test123,<SKIP>,<SKIP>,<SKIP>,Floating Holiday,<SKIP>,FALSE
+jessica.marshall,test123,<SKIP>,<SKIP>,<SKIP>,Other,Test other vacation type,FALSE
+jessica.marshall,test123,<SKIP>,<SKIP>,<SKIP>,Vacation,<SKIP>,TRUE
