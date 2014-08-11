@@ -146,7 +146,7 @@ public class TestAddNewEmployeeData  {
 	public static Object[][] createEmployeeData() throws Exception{
 		//open the CSV file
 		CSVReader csvReader;
-		String path = "C:\\Maven\\BluesourceSeleniumTests\\src\\resources\\TestAddNewEmployee.csv";
+		String path = "src/test/resources/TestAddNewEmployee.csv";
 		try {
 			csvReader = new CSVReader(new FileReader(path));
 		} catch (FileNotFoundException e) {

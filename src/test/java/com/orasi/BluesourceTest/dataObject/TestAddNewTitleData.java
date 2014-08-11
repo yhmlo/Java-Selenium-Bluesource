@@ -49,7 +49,7 @@ public class TestAddNewTitleData {
     	
 		//open the CSV file
 		CSVReader csvReader;
-		String path = "C:\\Maven\\BluesourceSeleniumTests\\src\\resources\\TestAddNewTitle.csv";
+		String path = "src/test/resources/TestAddNewTitle.csv";
 		try {
 			csvReader = new CSVReader(new FileReader(path));
 		} catch (FileNotFoundException e) {

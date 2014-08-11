@@ -99,7 +99,7 @@ public class TestEnterTimeOffDetailsData {
 		
 		//open the CSV file
 		CSVReader csvReader;
-		String path = "C:\\Maven\\BluesourceSeleniumTests\\src\\resources\\TestEnterTimeOffDetails.csv";
+		String path = "src/test/resources/TestEnterTimeOffDetails.csv";
 		try {
 			csvReader = new CSVReader(new FileReader(path));
 		} catch (FileNotFoundException e) {
