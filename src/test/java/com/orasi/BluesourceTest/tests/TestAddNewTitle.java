@@ -14,7 +14,9 @@ public class TestAddNewTitle extends BaseTest{
 	
 
 	//Create a new title
-	@Test(dataProvider = "createNewTitleData", dataProviderClass = TestAddNewTitleData.class)
+	@Test(dataProvider = "createNewTitleData", dataProviderClass = TestAddNewTitleData.class,
+			description = "Adds a new consultant title and then deletes it")
+	
 	public void testCreateNewTitle(TestAddNewTitleData testData){
 		
 		//Login
