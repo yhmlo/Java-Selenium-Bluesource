@@ -27,9 +27,9 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
 import com.orasi.BluesourceTest.core.CommonUtils;
-import com.orasi.BluesourceTest.core.CustomListeners;
 
-@Listeners({com.orasi.BluesourceTest.core.CustomListeners.class})
+
+
 public class BaseTest extends CommonUtils{
 	
 
@@ -84,34 +84,6 @@ public class BaseTest extends CommonUtils{
 			
 	  }
 
-
-	@AfterMethod(alwaysRun=true)
-	  public void catchExceptions(ITestResult result){
-		  
-//		  String methodName = result.getName();
-//		  System.out.println(result.getName());
-//		  System.out.println(result.isSuccess());
-//		  //take a screenshot if the result is failure
-//		  if(!result.isSuccess()){
-//			  TakeScreenshot(methodName);
-//		  }
-		  
-//	      Calendar calendar = Calendar.getInstance();
-//	      SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-//	      String methodName = result.getName();
-//	      String failFileName;
-//	      if(!result.isSuccess()){
-//	          File imageFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-//	          try {
-//	        	  failFileName = "failure_screenshots/"+methodName+"_"+formater.format(calendar.getTime())+".png";
-//	        	  System.out.println(failFileName);
-//	        	  File failFile = new File(failFileName);
-//	        	  FileUtils.moveFile(imageFile, failFile);
-//	          } catch (IOException e1) {
-//	              e1.printStackTrace();
-//	          }
-//	      }
-	  }
 	  
 	  @AfterTest
 	  public void cleanUp() {

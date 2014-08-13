@@ -1,6 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Regression">
-
+	<listeners>
+	   <listener class-name="com.orasi.BluesourceTest.core.Screenshots" />	   
+	</listeners> 
 	<test name="Enter time off details for employee">
 		<parameter name="browser" value="Chrome" />
 		<classes>

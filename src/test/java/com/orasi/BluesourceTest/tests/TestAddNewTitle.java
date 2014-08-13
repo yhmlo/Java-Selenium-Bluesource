@@ -10,6 +10,7 @@ import com.orasi.BluesourceTest.pageObject.NewTitlePage;
 import com.orasi.BluesourceTest.pageObject.TopNavigationBar;
 import com.orasi.BluesourceTest.dataObject.TestAddNewTitleData;
 
+@Listeners({com.orasi.BluesourceTest.core.Screenshots.class})
 public class TestAddNewTitle extends BaseTest{
 	
 
