@@ -4,39 +4,52 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.util.*;
 
 public class CommonUtils {
 
-/*	public File TakeScreenshot(String methodName, WebDriver driver){
-	      Calendar calendar = Calendar.getInstance();
-	      SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-	      String failFileName = null;
-          File imageFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-          //try {
-        	  failFileName = "failure_screenshots/"+methodName+"_"+formater.format(calendar.getTime())+".png";
-        	  System.out.println(failFileName);
-        	  File failFile = new File(failFileName);
-        	  try {
-				//FileUtils.moveFile(imageFile, failFile);
-			} //catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	  Reporter.log("<a href=" + failFile.getAbsolutePath() + "</a>");
-
-        	  Reporter.log("Failure");
-        	  //Reporter.log("<a href='" + failFile.getAbsolutePath() + "'>screenshot</a>");
-        	  return failFile;
-         // } catch (IOException e1) {
-           //   e1.printStackTrace();
-         // }
-		//return null;
-*/
+	public void TakeScreenshot(String methodName){
+		try {
+			//get current date time with Date() to create unique file name  
+			Calendar calendar = Calendar.getInstance();
+		    SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+		    String failFileName = null;
+		    failFileName = "failure_screenshots/"+methodName+"_"+formater.format(calendar.getTime())+".png";
+		    
+		    //pull in the toolkit
+		    Toolkit toolkit = Toolkit.getDefaultToolkit();
+		    
+		    //Get the current screen size
+		  	Dimension scrnsize = toolkit.getScreenSize();	
+		    
+		    //Capture the screen shot of the area of the screen defined by the rectangle
+		  	Robot robot = new Robot();
+		  	
+		    //BufferedImage bi=robot.createScreenCapture(new Rectangle(1280,1024));
+		  	BufferedImage bi=robot.createScreenCapture(new Rectangle(scrnsize));
+		  	ImageIO.write(bi, "png", new File(failFileName));
+			
+			//Place the reference in TestNG web report 
+			Reporter.log("<br /> <br /> Failed step screenshot <br /> <br /> ");
+			Reporter.log("<img src=\"file:///" + failFileName + "\" alt=\"\"/><br />");
+		
+		} 
+		catch (AWTException e) {
+		e.printStackTrace();
+		} 
+		catch (IOException e) {
+		e.printStackTrace();
+		} catch (NoSuchElementException e){
+			
+		}
+	}
 	
 }
