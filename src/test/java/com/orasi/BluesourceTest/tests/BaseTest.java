@@ -25,16 +25,17 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import org.testng.annotations.Listeners;
 import com.orasi.BluesourceTest.core.CommonUtils;
+import com.orasi.BluesourceTest.core.CustomListeners;
 
-
+@Listeners({com.orasi.BluesourceTest.core.CustomListeners.class})
 public class BaseTest extends CommonUtils{
 	
 
 	public WebDriver driver;
 	public static StringBuffer verificationErrors = new StringBuffer();
-	
+
 	  @BeforeTest
 	  @Parameters("browser")
 	  public void launchBrowser(String browser) throws MalformedURLException {
@@ -85,15 +86,17 @@ public class BaseTest extends CommonUtils{
 			
 	  }
 
-	  @AfterMethod(alwaysRun=true)
+
+	@AfterMethod(alwaysRun=true)
 	  public void catchExceptions(ITestResult result){
 		  
-		  String methodName = result.getName();
-		  
-		  //take a screenshot if the result is failure
-		  if(!result.isSuccess()){
-			  //TakeScreenshot(methodName, driver);
-		  }
+//		  String methodName = result.getName();
+//		  System.out.println(result.getName());
+//		  System.out.println(result.isSuccess());
+//		  //take a screenshot if the result is failure
+//		  if(!result.isSuccess()){
+//			  TakeScreenshot(methodName);
+//		  }
 		  
 //	      Calendar calendar = Calendar.getInstance();
 //	      SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");

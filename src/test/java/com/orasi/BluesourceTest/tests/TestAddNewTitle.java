@@ -1,6 +1,7 @@
 package com.orasi.BluesourceTest.tests;
 import org.junit.Assert;
 import org.testng.Reporter;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.orasi.BluesourceTest.pageObject.ListingTitlesPage;
@@ -8,7 +9,6 @@ import com.orasi.BluesourceTest.pageObject.LoginPage;
 import com.orasi.BluesourceTest.pageObject.NewTitlePage;
 import com.orasi.BluesourceTest.pageObject.TopNavigationBar;
 import com.orasi.BluesourceTest.dataObject.TestAddNewTitleData;
-
 
 public class TestAddNewTitle extends BaseTest{
 	
