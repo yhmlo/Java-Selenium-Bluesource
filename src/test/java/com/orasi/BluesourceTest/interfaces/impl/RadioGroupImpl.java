@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class RadioGroupImpl extends ElementImpl implements RadioGroup {
     private final org.openqa.selenium.support.ui.Select innerSelect;
- 
+    private java.util.Date date= new java.util.Date();
     /**
      * Wraps a WebElement with RadioGroup functionality.
      *

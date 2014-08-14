@@ -1,5 +1,5 @@
 package com.orasi.BluesourceTest.interfaces.impl;
-import java.util.List;
+
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.ByClassName;
@@ -19,8 +19,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.orasi.BluesourceTest.interfaces.Element;
 import com.orasi.BluesourceTest.core.LocatorInfo;
 import com.orasi.BluesourceTest.core.CONSTANTS;
-
+import com.orasi.BluesourceTest.tests.BaseTest;
 import org.testng.Reporter;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 /**
  * An implementation of the Element interface. Delegates its work to an underlying WebElement instance for
  * custom functionality.
@@ -28,7 +33,9 @@ import org.testng.Reporter;
 public class ElementImpl implements Element {
 
     private final WebElement element;
-
+    private java.util.Date date= new java.util.Date();
+    private java.util.Date dateAfter = new java.util.Date();
+    
     public ElementImpl(final WebElement element) {
         this.element = element;              
     }
@@ -39,7 +46,7 @@ public class ElementImpl implements Element {
      */
     public void click() {
         element.click();
-        Reporter.log("Clicked [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "]");
+        Reporter.log(new Timestamp(date.getTime()) + " :: Clicked [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>]<br />");
     }
 
     /**
@@ -155,8 +162,8 @@ public class ElementImpl implements Element {
      */
     public void sendKeys(CharSequence... keysToSend) {    
     	if (keysToSend.toString() != ""){
-    		element.sendKeys(keysToSend);
-            Reporter.log("Send Keys [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "] to element [ " + element + " ]");
+    		element.sendKeys(keysToSend);    		
+    		Reporter.log(new Timestamp(date.getTime()) + " :: Send Keys [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] to element [ <b>" + element + "</b> ]<br />");
     	}
     }
 
@@ -190,12 +197,12 @@ public class ElementImpl implements Element {
      * If object is not present within the time, throw an error
      * @author Justin
      */
-     public void syncPresent(WebDriver driver) {
-	boolean found = false;
+     public boolean syncPresent(WebDriver driver) {
+    	 boolean found = false;
      	double loopTimeout = 0;
      	By locator = getElementLocator();
      	loopTimeout = CONSTANTS.TIMEOUT*10;
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] to be PRESENT in DOM within [ " + CONSTANTS.TIMEOUT + " ] seconds.");
+		Reporter.log(new Timestamp(date.getTime()) + " ::<i> Syncing to element [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "</b> ] to be <b>PRESENT</b> in DOM within [ " + CONSTANTS.TIMEOUT + " ] seconds.</i><br />");
      	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
      		
      		if (webElementPresent(driver, locator)){
@@ -203,7 +210,7 @@ public class ElementImpl implements Element {
      		    break;
      		}
      		try {
-     			Thread.sleep(10);
+     			Thread.sleep(100);
      			
      		} catch (Exception e) {
      		}
@@ -211,8 +218,11 @@ public class ElementImpl implements Element {
      	}
      	
      	if (!found){
-     	   Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "] was not PRESENT in the DOM after [ " + CONSTANTS.TIMEOUT + " ].");
-     	}
+     		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>PRESENT</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not PRESENT on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+     	return found;
      }	 
 
 
@@ -223,12 +233,12 @@ public class ElementImpl implements Element {
       * If object is not present within the time, throw an error
       * @author Justin
       */
-      public void syncPresent(WebDriver driver, int timeout) {
- 	boolean found = false;
+      public boolean syncPresent(WebDriver driver, int timeout) {
+    	  boolean found = false;
       	double loopTimeout = 0;
       	By locator = getElementLocator();
       	loopTimeout = timeout*10;
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] to be PRESENT in DOM within [ " + timeout + " ] seconds.");
+      	Reporter.log(new Timestamp(date.getTime()) + " ::<i> Syncing to element [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "</b> ] to be <b>PRESENT</b> in DOM within [ " + timeout + " ] seconds.</i><br />");
       	 
       	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
       		
@@ -237,7 +247,7 @@ public class ElementImpl implements Element {
       		    break;
       		}
       		try {
-      			Thread.sleep(10);
+      			Thread.sleep(100);
       			
       		} catch (Exception e) {
       		}
@@ -245,8 +255,11 @@ public class ElementImpl implements Element {
       	}
       	
       	if (!found){
-      		Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "] was not PRESENT in the DOM after [ " + timeout + " ].");
-      	}
+      		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>PRESENT</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not PRESENT on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+      	return found;
       }	 
 
 
@@ -257,12 +270,12 @@ public class ElementImpl implements Element {
        * If object is not present within the time, handle error based on returnError
        * @author Justin
        */
-       public void syncPresent(WebDriver driver, int timeout, boolean returnError) {
+       public boolean syncPresent(WebDriver driver, int timeout, boolean returnError) {
     	   boolean found = false;
        	double loopTimeout = 0;
        	By locator = getElementLocator();
        	loopTimeout = timeout*10;
-     	Reporter.log("Syncing to element [ @FindBy: " + element + " ] to be PRESENT in DOM within [ " + timeout + " ] seconds.");
+       	Reporter.log(new Timestamp(date.getTime()) + " ::<i> Syncing to element [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "</b> ] to be <b>PRESENT</b> in DOM within [ " + timeout + " ] seconds.</i><br />");
        	 
        	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
        		
@@ -271,7 +284,7 @@ public class ElementImpl implements Element {
        		    break;
        		}
        		try {
-       			Thread.sleep(10);
+       			Thread.sleep(100);
        			
        		} catch (Exception e) {
        		}
@@ -279,8 +292,11 @@ public class ElementImpl implements Element {
        	}
        	
        	if (!found && returnError){
-       		Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "] was not PRESENT in the DOM after [ " + timeout + " ].");
-       	}
+       		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>PRESENT</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not PRESENT on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;
        }	 
 
    /**
@@ -290,13 +306,13 @@ public class ElementImpl implements Element {
     * If object is not visible within the time, throw an error
     * @author Justin
     */
-    public void syncVisible(WebDriver driver) {
+    public boolean syncVisible(WebDriver driver) {
     	boolean found = false; 
     	double loopTimeout = 0;
     	
     	loopTimeout = CONSTANTS.TIMEOUT*10;
     	
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be VISIBLE within [ " + CONSTANTS.TIMEOUT + " ] seconds.");
+    	Reporter.log(new Timestamp(date.getTime()) + " ::<i> Syncing to element [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "</b> ] to be <b>VISISBLE</b> within [ " + CONSTANTS.TIMEOUT + " ] seconds.</i><br />");
     	 
     	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
     		
@@ -305,7 +321,7 @@ public class ElementImpl implements Element {
     		    break;
     		}
     		try {
-    			Thread.sleep(10);
+    			Thread.sleep(100);
     			
     		} catch (Exception e) {
     		}
@@ -313,8 +329,11 @@ public class ElementImpl implements Element {
     	}
     	
     	if(!found){
-    		Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not VISIBLE on the page after [ " + CONSTANTS.TIMEOUT + " ] seconds.");
+    		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>VISIBLE</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not VISIBLE on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
     	}
+		return found;
     	 
     }	 
     
@@ -327,12 +346,12 @@ public class ElementImpl implements Element {
     * @author Justin
     * 
     */
-    public void syncVisible(WebDriver driver, int timeout) {
+    public boolean syncVisible(WebDriver driver, int timeout) {
     	boolean found = false;
     	double loopTimeout = 0;
     	
     	loopTimeout = Long.valueOf(timeout)*10;	
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be VISIBLE within [ " + timeout + " ] seconds.");
+    	Reporter.log(new Timestamp(date.getTime()) + " ::<i> Syncing to element [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + "</b> ] to be <b>VISISBLE</b> within [ " + timeout + " ] seconds.</i><br />");
     	 
     	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
     		
@@ -341,7 +360,7 @@ public class ElementImpl implements Element {
     			break;
     		}
     		try {
-    			Thread.sleep(10);
+    			Thread.sleep(100);
     			
     		} catch (Exception e) {
     		}
@@ -349,8 +368,11 @@ public class ElementImpl implements Element {
     	}
     	
     	if(!found){
-    		Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not VISIBLE on the page after [ " + timeout + " ] seconds.");
-    	}	
+    		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>VISIBLE</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not VISIBLE on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;	
     }	 
 
     /**
@@ -361,13 +383,13 @@ public class ElementImpl implements Element {
      * @author Justin
      *
      */
-    public void syncVisible(WebDriver driver, int timeout, boolean returnError) {
+    public boolean syncVisible(WebDriver driver, int timeout, boolean returnError) {
     	boolean found = false;
     	double loopTimeout = 0;
     	
     
-    	loopTimeout = Integer.valueOf(timeout)*10;
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be VISIBLE within [ " + timeout + " ] seconds.");
+    	loopTimeout = Integer.valueOf(timeout)*10;    	
+		Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>VISIBLE/<b> within [ " + timeout + " ] seconds.</i><br />");
     			 
     	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
     		
@@ -376,15 +398,18 @@ public class ElementImpl implements Element {
     			break;
     		}
     		try {
-    			Thread.sleep(10);				
+    			Thread.sleep(100);				
     		} catch (Exception e) {
     		}
     		 
     	}
     	
     	 if(!found && returnError){
-    		 Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] is not VISIBLE on the page after [ " + timeout + " ] seconds.");
-    	 }	
+    		dateAfter= new java.util.Date();
+     		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>VISIBLE</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+     		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not VISIBLE on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+     	}
+		return found;	
     }	 
     
 
@@ -394,29 +419,34 @@ public class ElementImpl implements Element {
      * If object is not visible within the time, throw an error
      * @author Justin
      * */
-    public void syncHidden(WebDriver driver){
+    public boolean syncHidden(WebDriver driver){
     	boolean found = false;
     	long loopTimeout = 0;
+    	double seconds;
     	 
-    	loopTimeout = CONSTANTS.TIMEOUT * 10;
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be HIDDEN within [ " + CONSTANTS.TIMEOUT + " ] seconds.");
-    	 
-    	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
+    	loopTimeout = CONSTANTS.TIMEOUT * 10;    	
+     	Reporter.log(new Timestamp(date.getTime()) + " :: <i> Syncing to element [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>HIDDEN</b> within [ " + CONSTANTS.TIMEOUT + " ] seconds.</i><br />");
+    	 driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
+    	for( seconds =0 ; seconds < loopTimeout ; seconds+=1){
     		
             if (!webElementVisible(driver, element)){
             	found = true;
             	break;
             }
             try {
-            	Thread.sleep(10);
+            	Thread.sleep(100);
             } catch (Exception e) {
             
             }
     		 
     	}
+    	driver.manage().timeouts().implicitlyWait(CONSTANTS.TIMEOUT, TimeUnit.SECONDS);
     	if(!found){
-    		Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not HIDDEN on the page after [ " + CONSTANTS.TIMEOUT + " ] seconds.");
+    		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>HIDDEN</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not HIDDEN on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
     	}
+		return found;
     }	 
 
    
@@ -426,30 +456,34 @@ public class ElementImpl implements Element {
      * If object is not visible within the time, throw an error
      * @author Justin
      */
-    public void syncHidden(WebDriver driver, int timeout){
+    public boolean syncHidden(WebDriver driver, int timeout){
     	boolean found = false;
     	long loopTimeout = 0;
+    	double seconds;
 
     	loopTimeout = Long.valueOf(timeout)*10;	
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be HIDDEN within [ " + timeout + " ] seconds.");
+     	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>HIDDEN</b> within [ <b>" + timeout + "</b> ] seconds.</i><br />");
     	
-    	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
+    	for(seconds =0 ; seconds < loopTimeout ; seconds+=1){
     		
             if (!webElementVisible(driver, element)){
             	found = true;
             	break;
             }
             try {
-            	Thread.sleep(10);
+            	Thread.sleep(100);
             } catch (Exception e) {
             
             }
-
+	 
     	}
     	
     	if(!found){
-    		Reporter.log("Element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not HIDDEN on the page after [ " + timeout + " ] seconds.");
-    	}		
+      		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>HIDDEN</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not HIDDEN on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;		
     }	 
 
 
@@ -459,12 +493,12 @@ public class ElementImpl implements Element {
      * If object is not visible within the time, handle the error based on the boolean
      * @author Justin
      */
-    public void syncHidden(WebDriver driver,int timeout, boolean returnError){
+    public boolean syncHidden(WebDriver driver,int timeout, boolean returnError){
     	boolean found = false;
     	long loopTimeout = 0;
     	 		
     	loopTimeout = Long.valueOf(timeout)*10;		
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] to be HIDDEN within [ " + timeout + " ] seconds.");
+    	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>HIDDEN</b> within [ <b>" + timeout + "</b> ] seconds.</i><br />");
     	 
     	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
     		
@@ -473,15 +507,18 @@ public class ElementImpl implements Element {
     			break;
     		}
     		try {
-    			Thread.sleep(10);
+    			Thread.sleep(100);
     		} catch (Exception e) {
     		}
     		 
     	}
     	
-    	 if(!found && returnError){
-    		 Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not HIDDEN on the page after [ " + timeout + " ] seconds.");
-    	 }	
+    	 if(!found && returnError){    		
+    		dateAfter= new java.util.Date();
+     		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>HIDDEN</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+     		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not HIDDEN on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+     		}
+		return found;	
     	}	 
 
     /**
@@ -491,12 +528,12 @@ public class ElementImpl implements Element {
      * If object is not enabled within the time, throw an error
      * @author Justin
      */
-     public void syncEnabled(WebDriver driver) {
+     public boolean syncEnabled(WebDriver driver) {
      	boolean found = false; 
  	double loopTimeout = 0;
      	
      	loopTimeout = CONSTANTS.TIMEOUT*10;
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] to be ENABLED within [ " + CONSTANTS.TIMEOUT + " ] seconds.");
+     	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>ENABLED</b> within [ <b>" + CONSTANTS.TIMEOUT+ "</b> ] seconds.</i><br />");
      	 
      	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
      		
@@ -505,7 +542,7 @@ public class ElementImpl implements Element {
      		    break;
      		}
      		try {
-     			Thread.sleep(10);
+     			Thread.sleep(100);
      			
      		} catch (Exception e) {
      		}
@@ -513,8 +550,11 @@ public class ElementImpl implements Element {
      	}
      	
      	if(!found){
-     		Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] is not ENABLED on the page after [ " + CONSTANTS.TIMEOUT + " ] seconds.");   
-     	}
+     		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>ENABLED</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not ENABLED on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;
      	 
      }	 
      
@@ -527,12 +567,12 @@ public class ElementImpl implements Element {
      * @author Justin
      * 
      */
-     public void syncEnabled(WebDriver driver, int timeout) {
+     public boolean syncEnabled(WebDriver driver, int timeout) {
      	boolean found = false;
      	double loopTimeout = 0;
      	
      	loopTimeout = Long.valueOf(timeout)*10;	
-     	Reporter.log("Syncing to element [@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] to be ENABLED within [ " + timeout + " ] seconds.");
+     	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>ENABLED</b> within [ <b>" + timeout + "</b> ] seconds.</i><br />");
      	 
      	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
      		
@@ -541,7 +581,7 @@ public class ElementImpl implements Element {
      			break;
      		}
      		try {
-     			Thread.sleep(10);
+     			Thread.sleep(100);
      			
      		} catch (Exception e) {
      		}
@@ -549,8 +589,11 @@ public class ElementImpl implements Element {
      	}
      	
      	if(!found){
-     		Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] is not ENABLED on the page after [ " + timeout + " ] seconds.");
-     	}	
+     		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>ENABLED</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not ENABLED on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;	
      }	 
 
      /**
@@ -561,13 +604,13 @@ public class ElementImpl implements Element {
       * @author Justin
       *
       */
-     public void syncEnabled(WebDriver driver, int timeout, boolean returnError) {
+     public boolean syncEnabled(WebDriver driver, int timeout, boolean returnError) {
      	boolean found = false;
      	double loopTimeout = 0;
      	
      
      	loopTimeout = Integer.valueOf(timeout)*10;
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ] to be ENABLED within [ " + timeout + " ] seconds.");
+     	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>ENABLED</b> within [ <b>" + timeout + "</b> ] seconds.</i><br />");
      			 
      	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
      		
@@ -576,15 +619,18 @@ public class ElementImpl implements Element {
      			break;
      		}
      		try {
-     			Thread.sleep(10);				
+     			Thread.sleep(100);				
      		} catch (Exception e) {
      		}
      		 
      	}
      	
      	 if(!found && returnError){
-     		Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not ENABLED on the page after [ " + timeout + " ] seconds.");
-     	 }	
+     		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>ENABLED</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not ENABLED on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;	
      }	 
      
 
@@ -595,12 +641,12 @@ public class ElementImpl implements Element {
       * If object is not disabled  within the time, throw an error
       * @author Justin
       */
-      public void syncDisabled(WebDriver driver) {
+      public boolean syncDisabled(WebDriver driver) {
       	boolean found = false; 
-  	double loopTimeout = 0;
+      	double loopTimeout = 0;
       	
       	loopTimeout = CONSTANTS.TIMEOUT*10;
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be DISABLED within [ " + CONSTANTS.TIMEOUT + " ] seconds.");
+      	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>DISABLED</b> within [ <b>" + CONSTANTS.TIMEOUT + "</b> ] seconds.</i><br />");
       	 
       	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
       		
@@ -609,7 +655,7 @@ public class ElementImpl implements Element {
       		    break;
       		}
       		try {
-      			Thread.sleep(10);
+      			Thread.sleep(100);
       			
       		} catch (Exception e) {
       		}
@@ -617,8 +663,11 @@ public class ElementImpl implements Element {
       	}
       	
       	if(!found){
-      		Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not DISABLED on the page after [ " + CONSTANTS.TIMEOUT + " ] seconds.");  
-      	}
+      		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>DISABLED</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not DISABLED on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;
       	 
       }	 
       
@@ -631,12 +680,12 @@ public class ElementImpl implements Element {
       * @author Justin
       * 
       */
-      public void syncDisabled(WebDriver driver, int timeout) {
+      public boolean syncDisabled(WebDriver driver, int timeout) {
       	boolean found = false;
       	double loopTimeout = 0;
       	
       	loopTimeout = Long.valueOf(timeout)*10;	
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be DISABLED within [ " + timeout + " ] seconds.");
+      	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>DISABLED</b> within [ <b>" + timeout + "</b> ] seconds.</i><br />");
       	 
       	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
       		
@@ -645,7 +694,7 @@ public class ElementImpl implements Element {
       			break;
       		}
       		try {
-      			Thread.sleep(10);
+      			Thread.sleep(100);
       			
       		} catch (Exception e) {
       		}
@@ -653,8 +702,11 @@ public class ElementImpl implements Element {
       	}
       	
       	if(!found){
-      		Reporter.log("Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not DISABLED on the page after [ " + timeout + " ] seconds.");
-      	}	
+      		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>DISABLED</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not DISABLED on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;	
       }	 
 
       /**
@@ -665,13 +717,13 @@ public class ElementImpl implements Element {
        * @author Justin
        *
        */
-      public void syncDisabled(WebDriver driver, int timeout, boolean returnError) {
+      public boolean syncDisabled(WebDriver driver, int timeout, boolean returnError) {
       	boolean found = false;
       	double loopTimeout = 0;
       	
       
       	loopTimeout = Integer.valueOf(timeout)*10;
-     	Reporter.log("Syncing to element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] to be DISABLED within [ " + timeout + " ] seconds.");
+      	Reporter.log(new Timestamp(date.getTime()) + " :: <i>Syncing to element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + "</b> ] to be <b>DISABLED</b> within [ <b>" + timeout + "</b> ] seconds.</i><br />");
       			 
       	for(double seconds =0 ; seconds < loopTimeout ; seconds+=1){
       		
@@ -680,15 +732,18 @@ public class ElementImpl implements Element {
       			break;
       		}
       		try {
-      			Thread.sleep(10);				
+      			Thread.sleep(100);				
       		} catch (Exception e) {
       		}
       		 
       	}
       	
       	 if(!found && returnError){
-      		 Reporter.log("Element [ " + element + " ] is not DISABLED on the page after [ " + timeout + " ] seconds.");
-      	 }	
+      		dateAfter= new java.util.Date();
+    		Reporter.log(new Timestamp(dateAfter.getTime()) + " :: <i>Element [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>] is not <b>DISABLED</b> on the page after [ " + (dateAfter.getTime()- date.getTime()) / 1000.0 + " ] seconds.</i><br />");
+    		throw new RuntimeException(new Timestamp(date.getTime()) + ":: Element [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " ] is not DISABLED on the page after [ "+ (dateAfter.getTime()- date.getTime()) / 1000.0  +" ] seconds.");
+    	}
+		return found;	
       }	 
       
     
@@ -710,7 +765,7 @@ public class ElementImpl implements Element {
 	     }			
 
 	 }
-
+	     
     /**
      * Use WebDriver Wait to determine if object is visible on the screen or not
      * @author Justin
@@ -721,15 +776,21 @@ public class ElementImpl implements Element {
      @SuppressWarnings({ "unchecked", "rawtypes" })
      private boolean webElementVisible(WebDriver driver, WebElement element){
 	 Wait wait  = new WebDriverWait(driver, 0);		
-
+	 Point location =null;
 	 try{		
-	     	return wait.until(ExpectedConditions.visibilityOf(element)) != null;		
-	     }catch (NoSuchElementException |  ClassCastException | StaleElementReferenceException | TimeoutException  e){
+		 location= element.getLocation();
+		 if (location.getX() > 0 || location.getY() > 0){
+			 return true;
+		 }
+	     	//return wait.until(ExpectedConditions.visibilityOf(element)) != null;
+		 
+	     }catch ( NoSuchElementException |  ClassCastException | StaleElementReferenceException |TimeoutException  e){
+	    	// e.printStackTrace();
 		return false;
 	     }			
- 
+	 return false;
 	 }
-
+	 
      /**
       * Use WebDriver Wait to determine if object is enabled on the screen or not
       * @author Justin
@@ -742,7 +803,8 @@ public class ElementImpl implements Element {
  	 Wait wait  = new WebDriverWait(driver, 0);		
 
  	 try{		
- 	     	return wait.until(ExpectedConditions.elementToBeClickable(element)) != null;		
+ 	     	//return wait.until(ExpectedConditions.elementToBeClickable(element)) != null;
+ 		 return element.isEnabled();
  	     }catch (NoSuchElementException |  ClassCastException | StaleElementReferenceException | TimeoutException  e){
  		return false;
  	     }			
@@ -755,12 +817,19 @@ public class ElementImpl implements Element {
      * @return {@link By} Return the By object to reuse
      */
     public By getElementLocator(){    	 
-	By by = null; 
+	By by = null;
+	String locator = "";
+	int startPosition = 0;
 	try{
-	    int startPosition = element.toString().lastIndexOf("->") + 3;
-
-            String locator = element.toString().substring(startPosition, element.toString().lastIndexOf(":"));
-            locator = locator.trim();
+		if (BaseTest.browserUnderTest == "HTMLUnitDriver"){
+	    	//<input type="text" name="USER" />		
+			startPosition = element.toString().indexOf("=\"");
+			locator = element.toString().substring(startPosition, element.toString().indexOf("="));
+		}else{
+			startPosition = element.toString().lastIndexOf("->") + 3;
+			locator = element.toString().substring(startPosition, element.toString().lastIndexOf(":"));        	
+		}
+	        locator = locator.trim();
             switch (locator){
             	case "className":
             	    by = new ByClassName(getElementIdentifier());
@@ -791,10 +860,20 @@ public class ElementImpl implements Element {
 	}		
     }
      
-     public String getElementIdentifier(){		
-    	 int startPosition = element.toString().lastIndexOf(": ")+ 2;
-    	 String locator = element.toString().substring(startPosition, element.toString().lastIndexOf("]"));
-    			 
-    	 	return locator.trim();
-    	 }
+     public String getElementIdentifier(){	
+    	String locator = "";
+    	int startPosition = 0;
+    	 
+		if (BaseTest.browserUnderTest == "HTMLUnitDriver"){
+	    	//<input type="text" name="USER" />		
+			startPosition = element.toString().lastIndexOf("=\"");
+			locator = element.toString().substring(startPosition, element.toString().indexOf("\" /"));
+		}else{
+			 startPosition = element.toString().lastIndexOf(": ")+ 2;
+	    	 locator = element.toString().substring(startPosition, element.toString().lastIndexOf("]"));       	
+		}
+	
+			 
+	 	return locator.trim();
+	 }
 }

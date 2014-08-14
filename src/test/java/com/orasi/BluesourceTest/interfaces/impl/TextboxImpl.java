@@ -1,5 +1,7 @@
 package com.orasi.BluesourceTest.interfaces.impl;
 
+import java.sql.Timestamp;
+
 import org.eclipse.jetty.util.log.Log;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -15,7 +17,7 @@ import org.testng.Reporter;
  */
 public class TextboxImpl extends ElementImpl implements Textbox {
     private WebElement element;
-
+    private java.util.Date date= new java.util.Date();
 	/**
      * Creates a Element for a given WebElement.
      *
@@ -28,7 +30,7 @@ public class TextboxImpl extends ElementImpl implements Textbox {
     @Override
     public void clear() {
         getWrappedElement().clear();
-        Reporter.log("Clear text from Textbox [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ]");
+		Reporter.log(new Timestamp(date.getTime()) + " :: Clear text from Textbox [<b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>]<br />");
     }
 
     @Override
@@ -36,10 +38,10 @@ public class TextboxImpl extends ElementImpl implements Textbox {
         if (text != ""){
         	getWrappedElement().clear();
         	getWrappedElement().sendKeys(text);
-        	Reporter.log("Send Keys [ " + text.toString() + " ] to Textbox [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ]");
-        	}else{
-        		Reporter.log("Skipping input to Textbox [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ]");
-        	}
+        	Reporter.log(new Timestamp(date.getTime()) + " :: Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b> ]<br />");
+        }else{
+        	Reporter.log(new Timestamp(date.getTime()) + " :: Skipping input to Textbox [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b> ]<br />");
+        }
     }
 
     public void safeSet(String text) {
@@ -49,9 +51,9 @@ public class TextboxImpl extends ElementImpl implements Textbox {
         	getWrappedElement().sendKeys(Keys.DELETE);
         	getWrappedElement().sendKeys(text);
         	getWrappedElement().sendKeys(Keys.TAB);
-        	Reporter.log("Send Keys [ " + text.toString() + " ] to Textbox [  @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ]");
+        	Reporter.log(new Timestamp(date.getTime()) + " :: Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b> ]<br />");
         }else{
-    		Reporter.log("Skipping input to Textbox [ @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ]");
+        	Reporter.log(new Timestamp(date.getTime()) + " :: Skipping input to Textbox [ <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b> ]<br />");
     	}
     }
     
