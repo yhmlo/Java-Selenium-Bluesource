@@ -11,22 +11,19 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.NoSuchElementException;
-
 import javax.imageio.ImageIO;
-
-import org.testng.ITestResult;
 import org.testng.Reporter;
-import org.testng.TestListenerAdapter;
 
-
-public class Screenshots extends TestListenerAdapter {
-
-	@Override
-	public void onTestFailure(ITestResult tr) {
-		takeScreenshot(tr.getName());
+public class Screenshots  {
+	
+	private String testName;
+	
+	//Constructor
+	public Screenshots(String testName){
+		this.testName = testName;
 	}
 
-	private void takeScreenshot(String testName) {
+	public void takeScreenshot() {
 		try {
 
 			// get current date time with Date() to create unique file name

@@ -1,36 +1,20 @@
 package com.orasi.BluesourceTest.tests;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.*;
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.firefox.*;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.*;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
-import com.orasi.BluesourceTest.core.CommonUtils;
 
-
-
-public class BaseTest extends CommonUtils{
+@Listeners({com.orasi.BluesourceTest.core.CustomTestListeners.class})
+public class BaseTest {
 	
 
 	public WebDriver driver;
