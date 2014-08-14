@@ -1,10 +1,13 @@
 package com.orasi.BluesourceTest.interfaces.impl;
 
 import org.openqa.selenium.WebElement;
+
 import com.orasi.BluesourceTest.interfaces.Listbox;
 import com.orasi.BluesourceTest.core.LocatorInfo;
+
 import org.testng.Reporter;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -12,7 +15,7 @@ import java.util.List;
  */
 public class ListboxImpl extends ElementImpl implements Listbox {
     private final org.openqa.selenium.support.ui.Select innerSelect;
-
+    private java.util.Date date= new java.util.Date();
     /**
      * Wraps a WebElement with checkbox functionality.
      *
@@ -33,7 +36,7 @@ public class ListboxImpl extends ElementImpl implements Listbox {
     @Override
     public void select(String text) {
         innerSelect.selectByVisibleText(text);
-        Reporter.log("Select option [ " + text.toString() + " ] from Listbox [  @FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement()) + " ]");
+        Reporter.log(new Timestamp(date.getTime()) + " :: Select option [ <b>" + text.toString() + "</b> ] from Listbox [  <b>@FindBy: " + LocatorInfo.getLocatorInfo(getWrappedElement())  + " </b>]<br />");
     }
 
     /**

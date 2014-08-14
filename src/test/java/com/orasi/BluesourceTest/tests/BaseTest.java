@@ -19,14 +19,15 @@ public class BaseTest {
 
 	public WebDriver driver;
 	public static StringBuffer verificationErrors = new StringBuffer();
-
+	public static String browserUnderTest;
+	
 	  @BeforeTest
 	  @Parameters("browser")
 	  public void launchBrowser(String browser) throws MalformedURLException {
 		  	
 		  	//String browser = "Chrome";
 	
-			
+			browserUnderTest = browser;
 			if (browser.equalsIgnoreCase("Chrome") ){
 				
 				//URL seleniumRemoteChrome = new URL("http", "10.238.242.209", 5555, "/wd/hub");
