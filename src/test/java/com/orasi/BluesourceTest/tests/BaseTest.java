@@ -1,36 +1,20 @@
 package com.orasi.BluesourceTest.tests;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.*;
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.firefox.*;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.*;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
-import com.orasi.BluesourceTest.core.CommonUtils;
-import com.orasi.BluesourceTest.core.CustomListeners;
 
-@Listeners({com.orasi.BluesourceTest.core.CustomListeners.class})
-public class BaseTest extends CommonUtils{
+@Listeners({com.orasi.BluesourceTest.core.CustomTestListeners.class})
+public class BaseTest {
 	
 
 	public WebDriver driver;
@@ -84,34 +68,6 @@ public class BaseTest extends CommonUtils{
 			
 	  }
 
-
-	@AfterMethod(alwaysRun=true)
-	  public void catchExceptions(ITestResult result){
-		  
-//		  String methodName = result.getName();
-//		  System.out.println(result.getName());
-//		  System.out.println(result.isSuccess());
-//		  //take a screenshot if the result is failure
-//		  if(!result.isSuccess()){
-//			  TakeScreenshot(methodName);
-//		  }
-		  
-//	      Calendar calendar = Calendar.getInstance();
-//	      SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-//	      String methodName = result.getName();
-//	      String failFileName;
-//	      if(!result.isSuccess()){
-//	          File imageFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-//	          try {
-//	        	  failFileName = "failure_screenshots/"+methodName+"_"+formater.format(calendar.getTime())+".png";
-//	        	  System.out.println(failFileName);
-//	        	  File failFile = new File(failFileName);
-//	        	  FileUtils.moveFile(imageFile, failFile);
-//	          } catch (IOException e1) {
-//	              e1.printStackTrace();
-//	          }
-//	      }
-	  }
 	  
 	  @AfterTest
 	  public void cleanUp() {
