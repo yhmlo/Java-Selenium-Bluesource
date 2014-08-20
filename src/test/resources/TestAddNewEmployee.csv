@@ -1,0 +1,2 @@
+LoginUsername,LoginPassword,FirstName,LastName,Username,Title,Role,Manager,Status,Location,StartDate,CellPhone,OfficePhone,Email,Dept
+company.admin,test123,<SKIP>,<SKIP>,<SKIP>,Consultant,Base,Adam Thomas,Permanent,Greensboro,<SKIP>,336-999-1234,336-789-7894,<SKIP>,Services
